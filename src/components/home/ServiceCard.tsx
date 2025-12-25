@@ -13,12 +13,17 @@ interface ServiceCardProps {
 }
 
 const categoryEmoji: Record<string, string> = {
-  Haircuts: '💇',
-  Manicures: '💅',
-  Facials: '🧖',
-  Eyebrows: '👁️',
+  'Cortes': '💇',
+  'Manicura': '💅',
+  'Faciales': '🧖',
+  'Cejas': '👁️',
+  'Coloración': '🎨',
+  'Spa': '🧘',
+  // Fallback English keys
+  'Haircuts': '💇',
+  'Manicures': '💅',
+  'Eyebrows': '👁️',
   'Hair Coloring': '🎨',
-  Spa: '🧘',
 };
 
 export default function ServiceCard({ service, salonSlug, variant = 'list' }: ServiceCardProps) {
@@ -28,9 +33,9 @@ export default function ServiceCard({ service, salonSlug, variant = 'list' }: Se
     return (
       <Link
         href={`/${salonSlug}/service/${service.id}`}
-        className="block bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
+        className="block bg-[var(--card)] border border-[var(--border)] rounded-[var(--radius-xl)] overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
       >
-        <div className="relative h-40 bg-[#FDE8D7]">
+        <div className="relative h-48 bg-[var(--secondary-50)] dark:bg-[var(--primary-900)]">
           {service.image ? (
             <Image
               src={service.image}
@@ -39,21 +44,21 @@ export default function ServiceCard({ service, salonSlug, variant = 'list' }: Se
               className="object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-5xl">
+            <div className="w-full h-full flex items-center justify-center text-6xl">
               {emoji}
             </div>
           )}
         </div>
-        <div className="p-4">
+        <div className="p-5">
           <div className="flex items-start justify-between mb-2">
-            <h3 className="font-semibold text-gray-900">{service.name}</h3>
-            <span className="text-[#E91E8C] font-bold">{formatCurrency(service.price)}</span>
+            <h3 className="font-bold text-[var(--foreground)] font-[family-name:var(--font-heading)]">{service.name}</h3>
+            <span className="text-[var(--primary)] font-bold">{formatCurrency(service.price)}</span>
           </div>
-          <p className="text-sm text-[#8B7E8B] line-clamp-2 mb-3">
+          <p className="text-sm text-[var(--muted-foreground)] line-clamp-2 mb-3">
             {service.description}
           </p>
-          <div className="flex items-center text-sm text-gray-500">
-            <Clock size={14} className="mr-1" />
+          <div className="flex items-center text-sm text-[var(--gray-500)]">
+            <Clock size={16} className="mr-1.5" />
             <span>{service.duration} min</span>
           </div>
         </div>
@@ -65,9 +70,9 @@ export default function ServiceCard({ service, salonSlug, variant = 'list' }: Se
   return (
     <Link
       href={`/${salonSlug}/service/${service.id}`}
-      className="flex items-center gap-4 py-3"
+      className="flex items-center gap-4 py-4 px-2 hover:bg-[var(--secondary-50)] rounded-[var(--radius-lg)] transition-colors group"
     >
-      <div className="w-16 h-16 relative rounded-xl overflow-hidden bg-[#FDE8D7] flex-shrink-0">
+      <div className="w-16 h-16 relative rounded-[var(--radius-lg)] overflow-hidden bg-[var(--secondary-50)] dark:bg-[var(--primary-900)] flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
         {service.image ? (
           <Image
             src={service.image}
@@ -76,14 +81,14 @@ export default function ServiceCard({ service, salonSlug, variant = 'list' }: Se
             className="object-cover"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-2xl">
+          <div className="w-full h-full flex items-center justify-center text-3xl">
             {emoji}
           </div>
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-gray-900">{service.name}</h3>
-        <p className="text-[#E91E8C] font-medium">{formatCurrency(service.price)}</p>
+        <h3 className="font-semibold text-[var(--foreground)] font-[family-name:var(--font-heading)]">{service.name}</h3>
+        <p className="text-[var(--primary)] font-bold">{formatCurrency(service.price)}</p>
       </div>
     </Link>
   );

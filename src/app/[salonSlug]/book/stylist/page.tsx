@@ -16,8 +16,8 @@ export default function SelectStylistPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#E91E8C]"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)]"></div>
       </div>
     );
   }
@@ -45,15 +45,15 @@ export default function SelectStylistPage() {
   const isValid = state.useFirstAvailable || state.selectedStylist !== null;
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header title="Select Stylist" showClose />
+    <div className="min-h-screen bg-[var(--background)] pb-24 md:pb-8">
+      <Header title="Seleccionar Estilista" showClose />
 
-      <main className="p-4 lg:p-6">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Choose a stylist</h2>
+      <main className="px-4 pt-4 lg:px-8 lg:pt-8 max-w-3xl mx-auto">
+        <h2 className="text-xl font-bold text-[var(--foreground)] mb-6 font-[family-name:var(--font-heading)]">Elige un estilista</h2>
 
+        <div className="space-y-4">
           {/* Mobile: List view */}
-          <div className="md:hidden space-y-2">
+          <div className="md:hidden space-y-3">
             <StylistCard
               isFirstAvailable
               isSelected={state.useFirstAvailable}
@@ -70,7 +70,7 @@ export default function SelectStylistPage() {
           </div>
 
           {/* Tablet/Desktop: Grid view */}
-          <div className="hidden md:grid md:grid-cols-2 gap-3">
+          <div className="hidden md:grid md:grid-cols-2 gap-4">
             <StylistCard
               isFirstAvailable
               isSelected={state.useFirstAvailable}
@@ -91,15 +91,16 @@ export default function SelectStylistPage() {
       </main>
 
       {/* Fixed Bottom Button */}
-      <div className="fixed bottom-20 lg:bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 lg:relative lg:border-0 lg:mt-8">
-        <div className="max-w-2xl mx-auto">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-[var(--background)]/90 backdrop-blur-md border-t border-[var(--border)] lg:relative lg:border-0 lg:mt-8 lg:bg-transparent lg:backdrop-blur-none z-20">
+        <div className="max-w-3xl mx-auto">
           <Button
             fullWidth
             size="lg"
             onClick={handleContinue}
             disabled={!isValid}
+            className="shadow-lg"
           >
-            Continue
+            Continuar
           </Button>
         </div>
       </div>

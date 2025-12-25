@@ -10,15 +10,15 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ className = '', padding = 'md', children, ...props }, ref) => {
     const paddingStyles = {
       none: '',
-      sm: 'p-3',
-      md: 'p-4',
-      lg: 'p-6',
+      sm: 'p-4',
+      md: 'p-6',
+      lg: 'p-8',
     };
 
     return (
       <div
         ref={ref}
-        className={`bg-white rounded-xl ${paddingStyles[padding]} ${className}`}
+        className={`bg-white dark:bg-[var(--card)] rounded-[2rem] shadow-sm hover:shadow-md transition-shadow duration-300 ${paddingStyles[padding]} ${className}`}
         {...props}
       >
         {children}

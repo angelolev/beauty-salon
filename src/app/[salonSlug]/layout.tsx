@@ -12,18 +12,16 @@ function SalonLayoutContent({ children }: { children: React.ReactNode }) {
   const { salon } = useSalon();
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
+    <div className="min-h-screen bg-white dark:bg-[var(--background)]">
       {/* Desktop Sidebar */}
       <Sidebar salonSlug={salonSlug} salonName={salon?.name} />
 
       {/* Main Content */}
-      <div className="lg:pl-64">
-        <div className="min-h-screen bg-white lg:bg-[#FAFAFA]">
-          <div className="max-w-4xl mx-auto lg:py-6 lg:px-6">
-            <div className="bg-white lg:rounded-2xl lg:shadow-sm min-h-screen lg:min-h-0">
-              <div className="pb-20 lg:pb-6">
-                {children}
-              </div>
+      <div className="lg:pl-72 transition-all duration-300">
+        <div className="min-h-screen bg-white dark:bg-[var(--background)]">
+          <div className="w-full">
+            <div className="pb-20 lg:pb-0">
+              {children}
             </div>
           </div>
         </div>

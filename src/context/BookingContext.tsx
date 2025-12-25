@@ -1,7 +1,21 @@
 'use client';
 
-import { createContext, useContext, useReducer, ReactNode } from 'react';
+import { createContext, useContext, useReducer, ReactNode, useEffect, useState } from 'react';
 import { Service, Stylist, BookingState } from '@/types';
+
+// Type for confirmed/saved bookings
+export interface ConfirmedBooking {
+  id: string;
+  services: Service[];
+  stylist: Stylist | null;
+  date: string; // ISO string for serialization
+  time: string;
+  subtotal: number;
+  tax: number;
+  total: number;
+  status: 'upcoming' | 'past';
+  createdAt: string;
+}
 
 type BookingAction =
   | { type: 'ADD_SERVICE'; payload: Service }
@@ -26,6 +40,8 @@ interface BookingContextType {
   reset: () => void;
   getTotalPrice: () => number;
   getTotalDuration: () => number;
+  confirmedBookings: ConfirmedBooking[];
+  addConfirmedBooking: (booking: Omit<ConfirmedBooking, 'id' | 'createdAt'>) => string;
 }
 
 const initialState: BookingState = {
@@ -88,8 +104,52 @@ function bookingReducer(state: BookingState, action: BookingAction): BookingStat
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
 
+const STORAGE_KEY = 'beauty-salon-bookings';
+
 export function BookingProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(bookingReducer, initialState);
+  const [confirmedBookings, setConfirmedBookings] = useState<ConfirmedBooking[]>([]);
+
+  // Load confirmed bookings from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try {
+        const bookings: ConfirmedBooking[] = JSON.parse(stored);
+        // Update status based on date
+        const now = new Date();
+        const updatedBookings = bookings.map(booking => {
+          const bookingDate = new Date(booking.date);
+          const [hours, minutes] = booking.time.split(':').map(Number);
+          bookingDate.setHours(hours, minutes);
+          return {
+            ...booking,
+            status: bookingDate < now ? 'past' as const : 'upcoming' as const,
+          };
+        });
+        setConfirmedBookings(updatedBookings);
+      } catch (e) {
+        console.error('Failed to parse stored bookings:', e);
+      }
+    }
+  }, []);
+
+  // Save confirmed bookings to localStorage when they change
+  useEffect(() => {
+    if (confirmedBookings.length > 0) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(confirmedBookings));
+    }
+  }, [confirmedBookings]);
+
+  const addConfirmedBooking = (booking: Omit<ConfirmedBooking, 'id' | 'createdAt'>): string => {
+    const newBooking: ConfirmedBooking = {
+      ...booking,
+      id: `booking-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      createdAt: new Date().toISOString(),
+    };
+    setConfirmedBookings(prev => [newBooking, ...prev]);
+    return newBooking.id;
+  };
 
   const addService = (service: Service) => {
     dispatch({ type: 'ADD_SERVICE', payload: service });
@@ -146,6 +206,8 @@ export function BookingProvider({ children }: { children: ReactNode }) {
         reset,
         getTotalPrice,
         getTotalDuration,
+        confirmedBookings,
+        addConfirmedBooking,
       }}
     >
       {children}

@@ -13,18 +13,18 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#E91E8C]"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[var(--background)]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)]"></div>
       </div>
     );
   }
 
   if (error || !salon) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <h1 className="text-xl font-semibold text-gray-900 mb-2">Salon Not Found</h1>
-        <p className="text-gray-500 text-center">
-          The salon you&apos;re looking for doesn&apos;t exist or may have been removed.
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-[var(--background)]">
+        <h1 className="text-xl font-bold text-[var(--foreground)] font-[family-name:var(--font-heading)] mb-2">Salón No Encontrado</h1>
+        <p className="text-[var(--muted-foreground)] text-center">
+          El salón que buscas no existe o ha sido eliminado.
         </p>
       </div>
     );
@@ -37,31 +37,31 @@ export default function HomePage() {
     return {
       id: category,
       title: category,
-      description: `Professional ${category.toLowerCase()} for all styles`,
+      description: `Servicios profesionales de ${category.toLowerCase()} para todos los estilos`,
       image: categoryServices[0]?.image || '/images/placeholder.jpg',
       href: `/${salonSlug}?category=${encodeURIComponent(category)}`,
     };
   });
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header title="Home" showSearch />
+    <div className="min-h-screen bg-[var(--background)] pb-20 md:pb-8">
+      <Header title="Inicio" showSearch salonSlug={salonSlug} />
 
-      <main className="px-4 pb-4 lg:px-6 lg:pb-6">
+      <main className="px-6 pb-6 lg:px-10 lg:pb-10 space-y-12">
         {/* Featured Section */}
         {featuredItems.length > 0 && (
-          <section className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Featured</h2>
+          <section>
+            <h2 className="text-2xl font-bold text-[var(--gray-800)] dark:text-white mb-6 font-[family-name:var(--font-heading)]">Destacados</h2>
             <FeaturedCarousel items={featuredItems} />
           </section>
         )}
 
         {/* Services Section */}
         <section>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Services</h2>
+          <h2 className="text-2xl font-bold text-[var(--gray-800)] dark:text-white mb-6 font-[family-name:var(--font-heading)]">Servicios</h2>
 
           {/* Mobile: List view */}
-          <div className="md:hidden divide-y divide-gray-100">
+          <div className="md:hidden divide-y divide-[var(--border)]">
             {services.map((service) => (
               <ServiceCard
                 key={service.id}
@@ -72,7 +72,7 @@ export default function HomePage() {
           </div>
 
           {/* Tablet/Desktop: Grid view */}
-          <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
             {services.map((service) => (
               <ServiceCard
                 key={service.id}
@@ -84,8 +84,8 @@ export default function HomePage() {
           </div>
 
           {services.length === 0 && (
-            <p className="text-gray-500 text-center py-8">
-              No services available at this time.
+            <p className="text-[var(--muted-foreground)] text-center py-12 bg-[var(--card)] rounded-[var(--radius-xl)] border border-[var(--border)]">
+              No hay servicios disponibles en este momento.
             </p>
           )}
         </section>

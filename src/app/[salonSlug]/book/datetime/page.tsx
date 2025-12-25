@@ -68,17 +68,17 @@ export default function DateTimePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header title="Book Appointment" showClose />
+    <div className="min-h-screen bg-white dark:bg-[var(--background)]">
+      <Header title="Reservar Cita" showClose />
 
-      <main className="p-4 pb-32 lg:p-6 lg:pb-6">
+      <main className="p-4 pb-40 lg:p-6 lg:pb-6">
         <div className="max-w-4xl mx-auto">
           {/* Desktop: Side by side layout */}
           <div className="lg:grid lg:grid-cols-2 lg:gap-8">
             {/* Date Selection */}
             <section className="mb-8 lg:mb-0">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Select Date</h2>
-              <div className="lg:bg-gray-50 lg:rounded-xl lg:p-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Seleccionar Fecha</h2>
+              <div className="lg:bg-gray-50 lg:dark:bg-[var(--card)] lg:rounded-xl lg:p-4">
                 <Calendar
                   selectedDate={state.selectedDate}
                   onDateSelect={handleDateSelect}
@@ -88,9 +88,9 @@ export default function DateTimePage() {
 
             {/* Time Selection */}
             <section>
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Select Time</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Seleccionar Hora</h2>
               {state.selectedDate ? (
-                <div className="lg:bg-gray-50 lg:rounded-xl lg:p-4">
+                <div className="lg:bg-gray-50 lg:dark:bg-[var(--card)] lg:rounded-xl lg:p-4">
                   <TimeSlotPicker
                     slots={timeSlots}
                     selectedTime={state.selectedTime}
@@ -98,8 +98,8 @@ export default function DateTimePage() {
                   />
                 </div>
               ) : (
-                <div className="bg-gray-50 rounded-xl p-8 text-center">
-                  <p className="text-gray-500">Please select a date first</p>
+                <div className="bg-gray-50 dark:bg-[var(--card)] rounded-xl p-8 text-center">
+                  <p className="text-gray-500 dark:text-gray-400">Por favor, selecciona una fecha primero</p>
                 </div>
               )}
             </section>
@@ -108,7 +108,7 @@ export default function DateTimePage() {
       </main>
 
       {/* Fixed Bottom Button */}
-      <div className="fixed bottom-20 lg:bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-100 lg:relative lg:border-0 lg:mt-8">
+      <div className="fixed bottom-20 lg:bottom-0 left-0 right-0 p-4 bg-white dark:bg-[var(--card)] border-t border-gray-100 dark:border-[var(--border)] lg:relative lg:border-0 lg:mt-8">
         <div className="max-w-4xl mx-auto">
           <Button
             fullWidth
@@ -117,7 +117,7 @@ export default function DateTimePage() {
             disabled={!isValid}
             className="lg:max-w-md lg:mx-auto lg:block"
           >
-            Book Appointment
+            Reservar Cita
           </Button>
         </div>
       </div>

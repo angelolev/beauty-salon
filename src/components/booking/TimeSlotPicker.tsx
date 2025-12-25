@@ -18,14 +18,14 @@ export default function TimeSlotPicker({
 
   if (availableSlots.length === 0) {
     return (
-      <p className="text-gray-500 text-center py-4">
-        No available time slots for this date.
+      <p className="text-[var(--muted-foreground)] text-center py-8 bg-[var(--card)] rounded-[var(--radius-xl)] border border-[var(--border)]">
+        No hay horarios disponibles para esta fecha.
       </p>
     );
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
       {availableSlots.map((slot) => {
         const isSelected = selectedTime === slot.time;
 
@@ -34,10 +34,10 @@ export default function TimeSlotPicker({
             key={slot.time}
             onClick={() => onTimeSelect(slot.time)}
             className={`
-              py-3 px-4 rounded-xl text-sm font-medium transition-colors
+              py-3 px-4 rounded-full text-sm font-bold transition-all duration-300
               ${isSelected
-                ? 'bg-[#E91E8C] text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-[var(--primary)] text-[var(--primary-foreground)] shadow-md transform scale-105'
+                : 'bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] hover:border-[var(--primary-300)] hover:bg-[var(--primary-50)] hover:shadow-sm'
               }
             `}
           >

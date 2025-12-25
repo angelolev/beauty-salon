@@ -1,29 +1,29 @@
 export const DAYS_OF_WEEK = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
+  'Domingo',
+  'Lunes',
+  'Martes',
+  'Miércoles',
+  'Jueves',
+  'Viernes',
+  'Sábado',
 ];
 
-export const DAYS_OF_WEEK_SHORT = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+export const DAYS_OF_WEEK_SHORT = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
 
 export const SERVICE_CATEGORIES = [
-  'Haircuts',
-  'Manicures',
-  'Facials',
-  'Eyebrows',
-  'Hair Coloring',
+  'Cortes',
+  'Manicura',
+  'Faciales',
+  'Cejas',
+  'Coloración',
   'Spa',
 ];
 
-export const DEFAULT_SLOT_DURATION = 30; // minutes
+export const DEFAULT_SLOT_DURATION = 30; // minutos
 
 export const BOOKING_STATUSES = {
-  pending: 'Pending',
-  confirmed: 'Confirmed',
-  completed: 'Completed',
-  cancelled: 'Cancelled',
+  pending: 'Pendiente',
+  confirmed: 'Confirmada',
+  completed: 'Completada',
+  cancelled: 'Cancelada',
 } as const;

@@ -23,16 +23,16 @@ export default function StylistCard({
     return (
       <button
         onClick={onSelect}
-        className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
+        className={`w-full p-5 rounded-[var(--radius-xl)] border-2 transition-all duration-300 text-left ${
           isSelected
-            ? 'border-[#E91E8C] bg-pink-50'
-            : 'border-gray-100 hover:border-gray-200 hover:bg-gray-50'
+            ? 'border-[var(--primary)] bg-[var(--primary-50)] shadow-sm'
+            : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary-200)] hover:bg-[var(--secondary-50)] hover:shadow-md'
         }`}
       >
         <div className="flex items-center gap-4 mb-3">
           {isFirstAvailable ? (
-            <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center">
-              <Calendar size={24} className="text-gray-500" />
+            <div className="w-14 h-14 rounded-full bg-[var(--secondary-100)] flex items-center justify-center text-[var(--primary)]">
+              <Calendar size={24} />
             </div>
           ) : (
             <Avatar
@@ -42,16 +42,16 @@ export default function StylistCard({
             />
           )}
           <div className="flex-1">
-            <h3 className="font-semibold text-gray-900">
-              {isFirstAvailable ? 'First available' : stylist?.name}
+            <h3 className="font-bold text-[var(--foreground)] font-[family-name:var(--font-heading)]">
+              {isFirstAvailable ? 'Primero disponible' : stylist?.name}
             </h3>
-            <p className="text-sm text-[#8B7E8B]">
-              {isFirstAvailable ? 'Any available stylist' : stylist?.specialty}
+            <p className="text-sm text-[var(--muted-foreground)]">
+              {isFirstAvailable ? 'Cualquier estilista disponible' : stylist?.specialty}
             </p>
           </div>
         </div>
         {!isFirstAvailable && stylist?.bio && (
-          <p className="text-sm text-gray-500 line-clamp-2">{stylist.bio}</p>
+          <p className="text-sm text-[var(--gray-500)] line-clamp-2">{stylist.bio}</p>
         )}
       </button>
     );
@@ -61,13 +61,15 @@ export default function StylistCard({
   return (
     <button
       onClick={onSelect}
-      className={`w-full flex items-center gap-4 p-3 rounded-xl transition-colors ${
-        isSelected ? 'bg-pink-50 ring-2 ring-[#E91E8C]' : 'hover:bg-gray-50'
+      className={`w-full flex items-center gap-4 p-4 rounded-[var(--radius-xl)] transition-all duration-300 ${
+        isSelected 
+          ? 'bg-[var(--primary-50)] ring-2 ring-[var(--primary)] shadow-sm' 
+          : 'bg-[var(--card)] border border-[var(--border)] hover:bg-[var(--secondary-50)] hover:border-[var(--secondary-200)]'
       }`}
     >
       {isFirstAvailable ? (
-        <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center">
-          <Calendar size={24} className="text-gray-500" />
+        <div className="w-16 h-16 rounded-full bg-[var(--secondary-100)] flex items-center justify-center text-[var(--primary)] shrink-0">
+          <Calendar size={28} />
         </div>
       ) : (
         <Avatar
@@ -78,11 +80,11 @@ export default function StylistCard({
       )}
 
       <div className="flex-1 text-left">
-        <h3 className="font-semibold text-gray-900">
-          {isFirstAvailable ? 'First available' : stylist?.name}
+        <h3 className="font-bold text-lg text-[var(--foreground)] font-[family-name:var(--font-heading)]">
+          {isFirstAvailable ? 'Primero disponible' : stylist?.name}
         </h3>
-        <p className="text-sm text-[#8B7E8B]">
-          {isFirstAvailable ? 'Any available stylist' : stylist?.specialty}
+        <p className="text-sm text-[var(--muted-foreground)]">
+          {isFirstAvailable ? 'Cualquier estilista disponible' : stylist?.specialty}
         </p>
       </div>
     </button>

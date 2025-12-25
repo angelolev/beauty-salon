@@ -10,12 +10,17 @@ import { formatCurrency } from '@/utils/formatters';
 import { Clock, Tag, Star } from 'lucide-react';
 
 const categoryEmoji: Record<string, string> = {
-  Haircuts: '💇',
-  Manicures: '💅',
-  Facials: '🧖',
-  Eyebrows: '👁️',
+  'Cortes': '💇',
+  'Manicura': '💅',
+  'Faciales': '🧖',
+  'Cejas': '👁️',
+  'Coloración': '🎨',
+  'Spa': '🧘',
+  // Fallback English keys just in case
+  'Haircuts': '💇',
+  'Manicures': '💅',
+  'Eyebrows': '👁️',
   'Hair Coloring': '🎨',
-  Spa: '🧘',
 };
 
 export default function ServiceDetailPage() {
@@ -31,17 +36,17 @@ export default function ServiceDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#E91E8C]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (!service) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <h1 className="text-xl font-semibold text-gray-900 mb-2">Service Not Found</h1>
-        <p className="text-gray-500 text-center">
-          This service doesn&apos;t exist or may have been removed.
+      <div className="min-h-screen bg-white dark:bg-[var(--background)] flex flex-col items-center justify-center p-4">
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Servicio No Encontrado</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-center">
+          Este servicio no existe o ha sido eliminado.
         </p>
       </div>
     );
@@ -55,7 +60,7 @@ export default function ServiceDetailPage() {
   const emoji = categoryEmoji[service.category] || '✨';
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-[var(--background)]">
       <Header title={service.name} showBack />
 
       <main className="lg:p-6">
@@ -63,7 +68,7 @@ export default function ServiceDetailPage() {
           {/* Desktop: Side by side layout */}
           <div className="lg:grid lg:grid-cols-2 lg:gap-8">
             {/* Service Image */}
-            <div className="relative h-64 lg:h-80 lg:rounded-2xl overflow-hidden bg-[#FDE8D7]">
+            <div className="relative h-64 lg:h-80 lg:rounded-2xl overflow-hidden bg-primary/5 dark:bg-[#3D2E2E]">
               {service.image ? (
                 <Image
                   src={service.image}
@@ -79,12 +84,12 @@ export default function ServiceDetailPage() {
             </div>
 
             {/* Service Info */}
-            <div className="p-4 lg:p-0">
+            <div className="p-4 pb-40 lg:p-0 lg:pb-0">
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-1">{service.name}</h1>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-1">{service.name}</h1>
+                  <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
                     <span className="flex items-center gap-1">
                       <Clock size={16} />
                       {service.duration} min
@@ -95,41 +100,41 @@ export default function ServiceDetailPage() {
                     </span>
                   </div>
                 </div>
-                <span className="text-2xl lg:text-3xl font-bold text-[#E91E8C]">
+                <span className="text-2xl lg:text-3xl font-bold text-primary">
                   {formatCurrency(service.price)}
                 </span>
               </div>
 
               {/* Description */}
               <div className="mb-6">
-                <h2 className="font-semibold text-gray-900 mb-2">About this service</h2>
-                <p className="text-gray-600 leading-relaxed">
-                  {service.description || `Professional ${service.name.toLowerCase()} service provided by our expert stylists. Experience top-quality care in a relaxing environment.`}
+                <h2 className="font-semibold text-gray-900 dark:text-white mb-2">Sobre este servicio</h2>
+                <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                  {service.description || `Servicio profesional de ${service.name.toLowerCase()} proporcionado por nuestros estilistas expertos. Experimenta un cuidado de alta calidad en un ambiente relajante.`}
                 </p>
               </div>
 
               {/* Features */}
               <div className="mb-6 lg:mb-8">
-                <h2 className="font-semibold text-gray-900 mb-3">What&apos;s included</h2>
+                <h2 className="font-semibold text-gray-900 dark:text-white mb-3">Qué está incluido</h2>
                 <ul className="space-y-2">
-                  <li className="flex items-center gap-2 text-gray-600">
-                    <Star size={16} className="text-[#E91E8C]" />
-                    Professional consultation
+                  <li className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <Star size={16} className="text-primary" />
+                    Consulta profesional
                   </li>
-                  <li className="flex items-center gap-2 text-gray-600">
-                    <Star size={16} className="text-[#E91E8C]" />
-                    Premium products used
+                  <li className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <Star size={16} className="text-primary" />
+                    Productos premium utilizados
                   </li>
-                  <li className="flex items-center gap-2 text-gray-600">
-                    <Star size={16} className="text-[#E91E8C]" />
-                    Aftercare advice included
+                  <li className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <Star size={16} className="text-primary" />
+                    Consejos de cuidado posterior incluidos
                   </li>
                 </ul>
               </div>
 
               {/* Category Badge */}
               <div className="mb-6 lg:hidden">
-                <span className="inline-block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                <span className="inline-block bg-gray-100 dark:bg-[var(--card)] text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm">
                   {service.category}
                 </span>
               </div>
@@ -137,7 +142,7 @@ export default function ServiceDetailPage() {
               {/* Desktop Book Button */}
               <div className="hidden lg:block">
                 <Button fullWidth size="lg" onClick={handleBookNow}>
-                  Book Now - {formatCurrency(service.price)}
+                  Reservar Ahora - {formatCurrency(service.price)}
                 </Button>
               </div>
             </div>
@@ -146,10 +151,10 @@ export default function ServiceDetailPage() {
       </main>
 
       {/* Mobile Fixed Bottom Button */}
-      <div className="lg:hidden fixed bottom-20 left-0 right-0 p-4 bg-white border-t border-gray-100">
+      <div className="lg:hidden fixed bottom-20 left-0 right-0 p-4 bg-white dark:bg-[var(--card)] border-t border-gray-100 dark:border-[var(--border)]">
         <div className="max-w-md mx-auto">
           <Button fullWidth size="lg" onClick={handleBookNow}>
-            Book Now
+            Reservar Ahora
           </Button>
         </div>
       </div>

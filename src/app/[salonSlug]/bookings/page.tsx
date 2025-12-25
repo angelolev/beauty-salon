@@ -2,50 +2,20 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
+import { useBooking, ConfirmedBooking } from '@/context/BookingContext';
 import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/Button';
 import Header from '@/components/layout/Header';
-import { formatDate, formatTime } from '@/utils/formatters';
-
-// Demo bookings data
-const demoBookings = [
-  {
-    id: '1',
-    stylistName: 'Ava Harper',
-    stylistAvatar: undefined,
-    date: new Date(),
-    time: '10:00',
-    service: 'Haircut',
-    price: 30,
-    status: 'upcoming' as const,
-  },
-  {
-    id: '2',
-    stylistName: 'Chloe Bennett',
-    stylistAvatar: undefined,
-    date: new Date(Date.now() + 86400000),
-    time: '14:00',
-    service: 'Manicure',
-    price: 25,
-    status: 'upcoming' as const,
-  },
-  {
-    id: '3',
-    stylistName: 'Isabella Carter',
-    stylistAvatar: undefined,
-    date: new Date(2024, 6, 20),
-    time: '11:00',
-    service: 'Facial',
-    price: 40,
-    status: 'past' as const,
-  },
-];
+import BookingDetailsModal from '@/components/booking/BookingDetailsModal';
+import { formatDate, formatTime, formatCurrency } from '@/utils/formatters';
 
 export default function BookingsPage() {
   const params = useParams();
   const searchParams = useSearchParams();
+  const { confirmedBookings } = useBooking();
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<ConfirmedBooking | null>(null);
 
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
@@ -54,133 +24,166 @@ export default function BookingsPage() {
     }
   }, [searchParams, params.salonSlug]);
 
-  const filteredBookings = demoBookings.filter(
-    (booking) => booking.status === activeTab
-  );
+  // Update status based on current time and filter by tab
+  const now = new Date();
+  const filteredBookings = confirmedBookings
+    .map(booking => {
+      const bookingDate = new Date(booking.date);
+      const [hours, minutes] = booking.time.split(':').map(Number);
+      bookingDate.setHours(hours, minutes);
+      return {
+        ...booking,
+        status: bookingDate < now ? 'past' as const : 'upcoming' as const,
+      };
+    })
+    .filter(booking => booking.status === activeTab);
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header title="My Bookings" showBack />
+    <div className="min-h-screen bg-white dark:bg-[var(--background)]">
+      <Header title="Mis Reservas" showBack />
 
-      <main className="px-4 lg:px-6">
-        <div className="max-w-3xl mx-auto">
+      <main className="px-6 lg:px-10">
+        <div className="w-full">
           {/* Success Message */}
           {showSuccess && (
-            <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-xl">
-              <p className="text-green-800 text-center font-medium">
-                Booking confirmed successfully!
+            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+              <p className="text-green-800 dark:text-green-400 text-center font-medium">
+                ¡Reserva confirmada con éxito!
               </p>
             </div>
           )}
 
           {/* Tabs */}
-          <div className="flex border-b border-gray-200 mb-6">
+          <div className="flex border-b border-gray-200 dark:border-[var(--border)] mb-8">
             <button
               onClick={() => setActiveTab('upcoming')}
-              className={`flex-1 lg:flex-none lg:px-8 py-3 text-sm font-medium border-b-2 transition-colors ${
+              className={`flex-1 lg:flex-none lg:px-12 py-4 text-base font-bold border-b-2 transition-colors ${
                 activeTab === 'upcoming'
-                  ? 'border-[#E91E8C] text-gray-900'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? 'border-[var(--primary)] text-[var(--foreground)]'
+                  : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
               }`}
             >
-              Upcoming
+              Próximas
             </button>
             <button
               onClick={() => setActiveTab('past')}
-              className={`flex-1 lg:flex-none lg:px-8 py-3 text-sm font-medium border-b-2 transition-colors ${
+              className={`flex-1 lg:flex-none lg:px-12 py-4 text-base font-bold border-b-2 transition-colors ${
                 activeTab === 'past'
-                  ? 'border-[#E91E8C] text-gray-900'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? 'border-[var(--primary)] text-[var(--foreground)]'
+                  : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
               }`}
             >
-              Past
+              Pasadas
             </button>
           </div>
 
           {/* Bookings List - Mobile */}
           <div className="md:hidden space-y-4">
-            {filteredBookings.map((booking) => (
-              <div
-                key={booking.id}
-                className="flex items-center justify-between py-3"
-              >
-                <div className="flex items-center gap-4">
-                  <Avatar
-                    src={booking.stylistAvatar}
-                    alt={booking.stylistName}
-                    size="lg"
-                  />
-                  <div>
-                    <h3 className="font-semibold text-gray-900">
-                      {booking.stylistName}
-                    </h3>
-                    <p className="text-sm text-[#8B7E8B]">
-                      {formatDate(booking.date)}, {formatTime(booking.time)}
-                    </p>
-                    <p className="text-sm text-[#8B7E8B]">{booking.service}</p>
+            {filteredBookings.map((booking) => {
+              const stylistName = booking.stylist?.name || 'Primero Disponible';
+              const serviceName = booking.services.map(s => s.name).join(', ');
+              const bookingDate = new Date(booking.date);
+
+              return (
+                <div
+                  key={booking.id}
+                  className="flex items-center justify-between py-4 border-b border-[var(--border)] last:border-0"
+                >
+                  <div className="flex items-center gap-4">
+                    <Avatar
+                      src={booking.stylist?.avatar}
+                      alt={stylistName}
+                      size="lg"
+                    />
+                    <div>
+                      <h3 className="font-bold text-[var(--foreground)]">
+                        {stylistName}
+                      </h3>
+                      <p className="text-sm text-[var(--muted-foreground)]">
+                        {formatDate(bookingDate)}, {formatTime(booking.time)}
+                      </p>
+                      <p className="text-sm text-[var(--muted-foreground)] line-clamp-1">{serviceName}</p>
+                    </div>
                   </div>
+                  <Button variant="secondary" size="sm" onClick={() => setSelectedBooking(booking)}>
+                    Ver
+                  </Button>
                 </div>
-                <Button variant="secondary" size="sm">
-                  View
-                </Button>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Bookings List - Desktop: Card Grid */}
-          <div className="hidden md:grid md:grid-cols-2 gap-4">
-            {filteredBookings.map((booking) => (
-              <div
-                key={booking.id}
-                className="bg-gray-50 rounded-xl p-4 flex items-start gap-4"
-              >
-                <Avatar
-                  src={booking.stylistAvatar}
-                  alt={booking.stylistName}
-                  size="lg"
-                />
-                <div className="flex-1">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900">
-                      {booking.stylistName}
-                    </h3>
-                    <span className="text-sm font-medium text-[#E91E8C]">
-                      ${booking.price}
+          <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+            {filteredBookings.map((booking) => {
+              const stylistName = booking.stylist?.name || 'Primero Disponible';
+              const serviceName = booking.services.map(s => s.name).join(', ');
+              const bookingDate = new Date(booking.date);
+
+              return (
+                <div
+                  key={booking.id}
+                  className="bg-white dark:bg-[var(--card)] rounded-[2rem] p-6 shadow-sm hover:shadow-md transition-shadow border border-transparent hover:border-[var(--border)]"
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <Avatar
+                      src={booking.stylist?.avatar}
+                      alt={stylistName}
+                      size="lg"
+                    />
+                    <span className="text-lg font-bold text-[var(--primary)] bg-[var(--primary-50)] px-3 py-1 rounded-full text-sm">
+                      {formatCurrency(booking.total)}
                     </span>
                   </div>
-                  <p className="text-sm text-[#8B7E8B] mb-1">
-                    {formatDate(booking.date)}, {formatTime(booking.time)}
-                  </p>
-                  <p className="text-sm text-gray-600 mb-3">{booking.service}</p>
-                  <Button variant="outline" size="sm">
-                    View Details
+                  
+                  <div className="mb-4">
+                    <h3 className="font-bold text-lg text-[var(--foreground)] mb-1">
+                      {stylistName}
+                    </h3>
+                    <p className="text-sm text-[var(--muted-foreground)] font-medium">
+                      {formatDate(bookingDate)} • {formatTime(booking.time)}
+                    </p>
+                  </div>
+                  
+                  <p className="text-sm text-[var(--secondary-500)] mb-6 line-clamp-2 h-10">{serviceName}</p>
+                  
+                  <Button variant="outline" fullWidth onClick={() => setSelectedBooking(booking)}>
+                    Ver Detalles
                   </Button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {filteredBookings.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-gray-500 mb-4">
+            <div className="flex flex-col items-center justify-center py-20 bg-[var(--card)] rounded-[var(--radius-xl)] shadow-sm">
+              <p className="text-[var(--muted-foreground)] text-lg mb-6 font-medium">
                 {activeTab === 'upcoming'
-                  ? 'No upcoming bookings'
-                  : 'No past bookings'}
+                  ? 'No hay reservas próximas'
+                  : 'No hay reservas pasadas'}
               </p>
               {activeTab === 'upcoming' && (
                 <Button
                   variant="primary"
+                  size="lg"
                   onClick={() =>
                     (window.location.href = `/${params.salonSlug}`)
                   }
                 >
-                  Book Now
+                  Reservar Ahora
                 </Button>
               )}
             </div>
           )}
         </div>
       </main>
+
+      {/* Booking Details Modal */}
+      <BookingDetailsModal
+        isOpen={selectedBooking !== null}
+        onClose={() => setSelectedBooking(null)}
+        booking={selectedBooking}
+      />
     </div>
   );
 }

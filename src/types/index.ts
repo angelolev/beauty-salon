@@ -1,5 +1,8 @@
 import { Timestamp } from 'firebase/firestore';
 
+// User roles for access control
+export type UserRole = 'customer' | 'salon_admin' | 'superadmin';
+
 export interface Salon {
   id: string;
   slug: string;
@@ -51,7 +54,11 @@ export interface User {
   email: string;
   name: string;
   phone?: string;
+  role: UserRole;
+  assignedSalonIds?: string[]; // For salon_admin - salons they can manage
+  isActive: boolean;
   createdAt: Timestamp;
+  updatedAt?: Timestamp;
 }
 
 export interface Booking {

@@ -37,7 +37,7 @@ export default function Avatar({ src, alt, size = 'md', className = '' }: Avatar
 
     return (
       <div
-        className={`${sizeClasses[size]} rounded-full bg-[#FDE8D7] flex items-center justify-center text-[#8B7E8B] font-medium ${className}`}
+        className={`${sizeClasses[size]} rounded-full bg-[var(--primary-100)] dark:bg-[var(--primary-900)] flex items-center justify-center text-[var(--primary-600)] dark:text-[var(--primary-300)] font-medium transition-all hover:ring-2 hover:ring-[var(--primary-200)] ${className}`}
       >
         {initials}
       </div>
@@ -45,7 +45,7 @@ export default function Avatar({ src, alt, size = 'md', className = '' }: Avatar
   }
 
   return (
-    <div className={`${sizeClasses[size]} relative rounded-full overflow-hidden bg-[#FDE8D7] ${className}`}>
+    <div className={`${sizeClasses[size]} relative rounded-full overflow-hidden bg-[var(--primary-100)] dark:bg-[var(--primary-900)] ${className}`}>
       <Image
         src={src}
         alt={alt}

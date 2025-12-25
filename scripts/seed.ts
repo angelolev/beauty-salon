@@ -41,11 +41,11 @@ const db = getFirestore(app);
 const salonData = {
   slug: 'glamour-studio',
   name: 'Glamour Studio',
-  description: 'Your premier destination for beauty and wellness',
-  address: '123 Beauty Lane, New York, NY 10001',
-  phone: '+1 (555) 123-4567',
-  email: 'hello@glamourstudio.com',
-  taxRate: 0.1,
+  description: 'Tu destino principal para la belleza y el bienestar',
+  address: 'Av. José Pardo 123, Miraflores, Lima 15074, Perú',
+  phone: '+51 1 555-4567',
+  email: 'hola@glamourstudio.pe',
+  taxRate: 0.18,
   createdAt: Timestamp.now(),
 };
 
