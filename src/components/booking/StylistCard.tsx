@@ -25,8 +25,8 @@ export default function StylistCard({
         onClick={onSelect}
         className={`w-full p-5 rounded-[var(--radius-xl)] border-2 transition-all duration-300 text-left ${
           isSelected
-            ? 'border-[var(--primary)] bg-[var(--primary-50)] shadow-sm'
-            : 'border-[var(--border)] bg-[var(--card)] hover:border-[var(--primary-200)] hover:bg-[var(--secondary-50)] hover:shadow-md'
+            ? 'border-[var(--primary)] dark:border-indigo-500 bg-indigo-50 dark:bg-indigo-950/40 shadow-sm'
+            : 'border-[var(--border)] bg-[var(--card)] hover:border-indigo-300 dark:hover:border-indigo-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:shadow-md'
         }`}
       >
         <div className="flex items-center gap-4 mb-3">
@@ -62,9 +62,9 @@ export default function StylistCard({
     <button
       onClick={onSelect}
       className={`w-full flex items-center gap-4 p-4 rounded-[var(--radius-xl)] transition-all duration-300 ${
-        isSelected 
-          ? 'bg-[var(--primary-50)] ring-2 ring-[var(--primary)] shadow-sm' 
-          : 'bg-[var(--card)] border border-[var(--border)] hover:bg-[var(--secondary-50)] hover:border-[var(--secondary-200)]'
+        isSelected
+          ? 'bg-indigo-50 dark:bg-indigo-950/40 ring-2 ring-[var(--primary)] dark:ring-indigo-500 shadow-sm'
+          : 'bg-[var(--card)] border border-[var(--border)] hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:border-gray-300 dark:hover:border-gray-700'
       }`}
     >
       {isFirstAvailable ? (

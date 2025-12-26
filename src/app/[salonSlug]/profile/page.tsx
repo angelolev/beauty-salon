@@ -52,7 +52,7 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="min-h-screen bg-white dark:bg-[var(--background)]">
-        <Header title="My Profile" showBack />
+        <Header title="Mi Perfil" showBack />
 
         <main className="p-4 lg:p-6">
           <div className="max-w-md mx-auto flex flex-col items-center justify-center min-h-[60vh]">
@@ -83,51 +83,51 @@ export default function ProfilePage() {
   const menuItems = [
     {
       icon: Bell,
-      label: "Notification",
+      label: "Notificaciones",
       type: "toggle" as const,
       value: false,
       onChange: () => {},
     },
     {
       icon: isDarkMode ? Moon : Sun,
-      label: "Dark Mode",
+      label: "Modo Oscuro",
       type: "toggle" as const,
       value: isDarkMode,
       onChange: () => setTheme(isDarkMode ? "light" : "dark"),
     },
     {
       icon: Star,
-      label: "Rate App",
+      label: "Calificar App",
       type: "link" as const,
       onClick: () => {},
     },
     {
       icon: Share2,
-      label: "Share App",
+      label: "Compartir App",
       type: "link" as const,
       onClick: () => {},
     },
     {
       icon: Lock,
-      label: "Privacy Policy",
+      label: "Política de Privacidad",
       type: "link" as const,
       onClick: () => {},
     },
     {
       icon: FileText,
-      label: "Terms and Conditions",
+      label: "Términos y Condiciones",
       type: "link" as const,
       onClick: () => {},
     },
     {
       icon: Cookie,
-      label: "Cookies Policy",
+      label: "Política de Cookies",
       type: "link" as const,
       onClick: () => {},
     },
     {
       icon: Mail,
-      label: "Contact",
+      label: "Contacto",
       type: "link" as const,
       onClick: () => {},
     },
@@ -210,7 +210,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-[var(--background)]">
-      <Header title="My Profile" showBack />
+      <Header title="Mi Perfil" showBack />
 
       <main className="px-6 lg:px-10 py-6">
         {/* Mobile & Tablet: Original Clean Design */}
@@ -235,7 +235,7 @@ export default function ProfilePage() {
             </button>
 
             <p className="text-gray-500 dark:text-[var(--muted)] text-sm">
-              @{user.email?.split("@")[0] || "user"}
+              @{user.email?.split("@")[0] || "usuario"}
             </p>
           </div>
 

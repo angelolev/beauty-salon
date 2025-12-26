@@ -91,7 +91,7 @@ export default function SelectStylistPage() {
       </main>
 
       {/* Fixed Bottom Button */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-[var(--background)]/90 backdrop-blur-md border-t border-[var(--border)] lg:relative lg:border-0 lg:mt-8 lg:bg-transparent lg:backdrop-blur-none z-20">
+      <div className="fixed bottom-0 left-0 right-0 p-4 pb-20 md:pb-4 bg-[var(--background)]/95 backdrop-blur-md border-t border-[var(--border)] lg:relative lg:border-0 lg:mt-8 lg:bg-transparent lg:backdrop-blur-none lg:pb-0 z-20">
         <div className="max-w-3xl mx-auto">
           <Button
             fullWidth

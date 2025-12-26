@@ -46,7 +46,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex">
+    <div className="min-h-screen bg-[#FAFAFA] dark:bg-[var(--background)] flex">
       {/* Left side - Branding (desktop only) */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary to-pink-600 p-12 flex-col justify-between">
         <div className="flex items-center gap-3">
@@ -86,24 +86,24 @@ export default function SignupPage() {
             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
               <Scissors size={20} className="text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">Salón de Belleza</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">Salón de Belleza</span>
           </div>
 
           <div className="mb-8">
-            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Crear Cuenta</h1>
-            <p className="text-[#8B7E8B]">Regístrate para reservar tus citas</p>
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2">Crear Cuenta</h1>
+            <p className="text-[#8B7E8B] dark:text-[var(--muted-foreground)]">Regístrate para reservar tus citas</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-xl">
-                <p className="text-red-600 text-sm text-center">{error}</p>
+              <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+                <p className="text-red-600 dark:text-red-400 text-sm text-center">{error}</p>
               </div>
             )}
 
             {isDemo && (
-              <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl">
-                <p className="text-amber-700 text-sm text-center">
+              <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
+                <p className="text-amber-700 dark:text-amber-400 text-sm text-center">
                   Modo demo: Firebase no configurado
                 </p>
               </div>
@@ -154,7 +154,7 @@ export default function SignupPage() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-[#8B7E8B]">
+          <p className="mt-6 text-center text-[#8B7E8B] dark:text-[var(--muted-foreground)]">
             ¿Ya tienes una cuenta?{' '}
             <Link href="/login" className="text-primary font-medium hover:underline">
               Iniciar Sesión
@@ -162,9 +162,9 @@ export default function SignupPage() {
           </p>
 
           {/* Demo link */}
-          <div className="mt-8 p-4 bg-gray-50 rounded-xl">
-            <p className="text-xs text-[#8B7E8B] text-center mb-2">Modo Demo</p>
-            <p className="text-xs text-gray-600 text-center">
+          <div className="mt-8 p-4 bg-gray-50 dark:bg-[var(--card)] rounded-xl border border-transparent dark:border-[var(--border)]">
+            <p className="text-xs text-[#8B7E8B] dark:text-[var(--muted-foreground)] text-center mb-2">Modo Demo</p>
+            <p className="text-xs text-gray-600 dark:text-gray-400 text-center">
               Navegar sin iniciar sesión:{' '}
               <Link href="/glamour-studio" className="text-primary hover:underline">
                 Ver Salón de Demo
