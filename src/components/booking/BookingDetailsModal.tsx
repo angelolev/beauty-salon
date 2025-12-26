@@ -29,12 +29,12 @@ export default function BookingDetailsModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50"
+        className="absolute inset-0 bg-black/50 modal-backdrop"
         onClick={onClose}
       />
 
       {/* Modal */}
-      <div className="relative bg-white dark:bg-[var(--card)] rounded-2xl w-full max-w-md mx-4 max-h-[80vh] mb-20 lg:mb-0 overflow-hidden flex flex-col">
+      <div className="relative bg-white dark:bg-[var(--card)] rounded-2xl w-full max-w-md mx-4 max-h-[80vh] mb-20 lg:mb-0 overflow-hidden flex flex-col modal-content">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-[var(--border)]">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Detalles de la Cita</h2>

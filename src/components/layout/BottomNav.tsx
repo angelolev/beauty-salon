@@ -39,13 +39,13 @@ export default function BottomNav({ salonSlug }: BottomNavProps) {
           <Link
             key={href}
             href={href}
-            className={`flex flex-col items-center py-2 px-4 rounded-full transition-all duration-300 ${
+            className={`flex flex-col items-center py-2 px-4 rounded-full transition-all duration-300 active:scale-95 ${
               isActive
-                ? 'text-[var(--primary-700)] bg-[var(--primary-50)]'
-                : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--secondary-50)]'
+                ? 'text-[var(--primary-700)] bg-[var(--primary-50)] scale-105'
+                : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--secondary-50)] hover:scale-105'
             }`}
           >
-            <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+            <Icon size={22} strokeWidth={isActive ? 2.5 : 2} className="transition-transform duration-200" />
             <span className="text-[10px] mt-1 font-bold">{label}</span>
           </Link>
         ))}

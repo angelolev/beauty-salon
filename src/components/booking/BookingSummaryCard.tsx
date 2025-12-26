@@ -53,7 +53,21 @@ export default function BookingSummaryCard({
       {/* Stylist */}
       {stylist && (
         <div className="flex items-center gap-4">
-          <Avatar src={stylist.avatar} alt={stylist.name} size="lg" />
+          <div className="w-14 h-14 rounded-xl bg-[var(--primary-100)] dark:bg-[var(--primary-900)] flex items-center justify-center flex-shrink-0 overflow-hidden">
+            {stylist.avatar ? (
+              <Image
+                src={stylist.avatar}
+                alt={stylist.name}
+                width={56}
+                height={56}
+                className="object-cover w-full h-full"
+              />
+            ) : (
+              <span className="text-[var(--primary-600)] dark:text-[var(--primary-300)] font-semibold text-lg">
+                {stylist.name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2)}
+              </span>
+            )}
+          </div>
           <div>
             <h3 className="font-semibold text-[var(--foreground)]">{stylist.name}</h3>
             <p className="text-sm text-[var(--muted)]">Estilista</p>

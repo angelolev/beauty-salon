@@ -5,6 +5,7 @@ import { SalonProvider, useSalon } from '@/context/SalonContext';
 import { BookingProvider } from '@/context/BookingContext';
 import BottomNav from '@/components/layout/BottomNav';
 import Sidebar from '@/components/layout/Sidebar';
+import PageTransition from '@/components/ui/PageTransition';
 
 function SalonLayoutContent({ children }: { children: React.ReactNode }) {
   const params = useParams();
@@ -20,9 +21,11 @@ function SalonLayoutContent({ children }: { children: React.ReactNode }) {
       <div className="lg:pl-72 transition-all duration-300">
         <div className="min-h-screen bg-white dark:bg-[var(--background)]">
           <div className="w-full">
-            <div className="pb-20 lg:pb-0">
-              {children}
-            </div>
+            <PageTransition>
+              <div className="pb-20 lg:pb-0">
+                {children}
+              </div>
+            </PageTransition>
           </div>
         </div>
       </div>

@@ -75,8 +75,8 @@ export default function BookingSummaryPage() {
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Pago</h2>
               <div className="lg:bg-gray-50 lg:dark:bg-[var(--card)] lg:rounded-xl lg:p-4">
                 <div className="flex items-center gap-4 mb-4 lg:mb-6">
-                  <div className="w-14 h-14 rounded-xl bg-gray-100 dark:bg-[var(--border)] lg:bg-white lg:dark:bg-[var(--background)] flex items-center justify-center">
-                    <CreditCard size={24} className="text-gray-500 dark:text-gray-400" />
+                  <div className="w-14 h-14 rounded-xl bg-[var(--primary-100)] dark:bg-[var(--primary-900)] flex items-center justify-center flex-shrink-0">
+                    <CreditCard size={24} className="text-[var(--primary)]" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-white">{formatCurrency(total)}</h3>

@@ -54,13 +54,13 @@ export default function Sidebar({ salonSlug, salonName = 'Beauty Salon' }: Sideb
             <li key={href}>
               <Link
                 href={href}
-                className={`flex items-center gap-4 px-5 py-3.5 rounded-2xl transition-all duration-200 group font-medium ${
+                className={`flex items-center gap-4 px-5 py-3.5 rounded-2xl transition-all duration-200 group font-medium active:scale-[0.98] ${
                   isActive
-                    ? 'bg-[var(--primary-light)] text-[var(--primary)]'
-                    : 'text-[var(--secondary-500)] hover:bg-[var(--secondary-50)] hover:text-[var(--foreground)]'
+                    ? 'bg-[var(--primary-light)] text-[var(--primary)] shadow-sm'
+                    : 'text-[var(--secondary-500)] hover:bg-[var(--secondary-50)] hover:text-[var(--foreground)] hover:translate-x-1'
                 }`}
               >
-                <Icon size={20} className={isActive ? 'text-[var(--primary)]' : 'text-[var(--secondary-400)] group-hover:text-[var(--foreground)]'} />
+                <Icon size={20} className={`transition-all duration-200 ${isActive ? 'text-[var(--primary)]' : 'text-[var(--secondary-400)] group-hover:text-[var(--foreground)] group-hover:scale-110'}`} />
                 <span>{label}</span>
               </Link>
             </li>

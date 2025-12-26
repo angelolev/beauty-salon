@@ -62,24 +62,26 @@ export default function HomePage() {
 
           {/* Mobile: List view */}
           <div className="md:hidden divide-y divide-[var(--border)]">
-            {services.map((service) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                salonSlug={salonSlug}
-              />
+            {services.map((service, index) => (
+              <div key={service.id} className="stagger-item">
+                <ServiceCard
+                  service={service}
+                  salonSlug={salonSlug}
+                />
+              </div>
             ))}
           </div>
 
           {/* Tablet/Desktop: Grid view */}
           <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
-            {services.map((service) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                salonSlug={salonSlug}
-                variant="card"
-              />
+            {services.map((service, index) => (
+              <div key={service.id} className="stagger-item">
+                <ServiceCard
+                  service={service}
+                  salonSlug={salonSlug}
+                  variant="card"
+                />
+              </div>
             ))}
           </div>
 

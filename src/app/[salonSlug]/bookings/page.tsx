@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useBooking, ConfirmedBooking } from '@/context/BookingContext';
+import { useToast } from '@/context/ToastContext';
 import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/Button';
 import Header from '@/components/layout/Header';
@@ -13,16 +14,16 @@ export default function BookingsPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const { confirmedBookings } = useBooking();
+  const { success: showSuccessToast } = useToast();
   const [activeTab, setActiveTab] = useState<'upcoming' | 'past'>('upcoming');
-  const [showSuccess, setShowSuccess] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<ConfirmedBooking | null>(null);
 
   useEffect(() => {
     if (searchParams.get('success') === 'true') {
-      setShowSuccess(true);
+      showSuccessToast('¡Tu reserva ha sido confirmada exitosamente!');
       window.history.replaceState({}, '', `/${params.salonSlug}/bookings`);
     }
-  }, [searchParams, params.salonSlug]);
+  }, [searchParams, params.salonSlug, showSuccessToast]);
 
   // Update status based on current time and filter by tab
   const now = new Date();
@@ -44,15 +45,6 @@ export default function BookingsPage() {
 
       <main className="px-6 lg:px-10">
         <div className="w-full">
-          {/* Success Message */}
-          {showSuccess && (
-            <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
-              <p className="text-green-800 dark:text-green-400 text-center font-medium">
-                ¡Reserva confirmada con éxito!
-              </p>
-            </div>
-          )}
-
           {/* Tabs */}
           <div className="flex border-b border-gray-200 dark:border-[var(--border)] mb-8">
             <button

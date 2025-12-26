@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useSalon } from '@/context/SalonContext';
 import { useBooking } from '@/context/BookingContext';
+import { useToast } from '@/context/ToastContext';
 import Header from '@/components/layout/Header';
 import Button from '@/components/ui/Button';
 import Avatar from '@/components/ui/Avatar';
@@ -38,6 +39,7 @@ export default function PaymentPage() {
   const salonSlug = params.salonSlug as string;
   const { salon } = useSalon();
   const { state, getTotalPrice, reset, addConfirmedBooking } = useBooking();
+  const { success, error } = useToast();
   const [selectedPaymentId, setSelectedPaymentId] = useState<string | null>(
     demoPaymentMethods.find(m => m.isDefault)?.id || null
   );
@@ -66,28 +68,44 @@ export default function PaymentPage() {
   const serviceName = state.selectedServices.map(s => s.name).join(', ');
 
   const handleConfirmAndPay = async () => {
-    if (!selectedPaymentId || !state.selectedDate || !state.selectedTime) return;
+    if (!selectedPaymentId || !state.selectedDate || !state.selectedTime) {
+      error('Por favor selecciona un método de pago');
+      return;
+    }
 
     setIsProcessing(true);
 
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // Save the confirmed booking and get the ID
-    const bookingId = addConfirmedBooking({
-      services: state.selectedServices,
-      stylist: state.selectedStylist,
-      date: state.selectedDate.toISOString(),
-      time: state.selectedTime,
-      subtotal: subtotal - tax, // Save pre-tax amount as subtotal
-      tax,
-      total,
-      status: 'upcoming',
-    });
+      // Simulate random payment failure (10% chance)
+      if (Math.random() < 0.1) {
+        throw new Error('Error al procesar el pago');
+      }
 
-    // Reset booking state and redirect to confirmation page
-    reset();
-    router.push(`/${salonSlug}/book/confirmation?id=${bookingId}`);
+      // Save the confirmed booking and get the ID
+      const bookingId = addConfirmedBooking({
+        services: state.selectedServices,
+        stylist: state.selectedStylist,
+        date: state.selectedDate.toISOString(),
+        time: state.selectedTime,
+        subtotal: subtotal - tax, // Save pre-tax amount as subtotal
+        tax,
+        total,
+        status: 'upcoming',
+      });
+
+      // Show success toast
+      success('¡Reserva confirmada exitosamente!');
+
+      // Reset booking state and redirect to confirmation page
+      reset();
+      router.push(`/${salonSlug}/book/confirmation?id=${bookingId}`);
+    } catch (err) {
+      error('Error al procesar el pago. Por favor intenta nuevamente.');
+      setIsProcessing(false);
+    }
   };
 
   return (

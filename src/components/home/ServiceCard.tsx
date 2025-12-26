@@ -33,7 +33,7 @@ export default function ServiceCard({ service, salonSlug, variant = 'list' }: Se
     return (
       <Link
         href={`/${salonSlug}/service/${service.id}`}
-        className="block bg-[var(--card)] border border-[var(--border)] rounded-[var(--radius-xl)] overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+        className="block bg-[var(--card)] border border-[var(--border)] rounded-[var(--radius-xl)] overflow-hidden card-hover"
       >
         <div className="relative h-48 bg-[var(--secondary-50)] dark:bg-[var(--primary-900)]">
           {service.image ? (
