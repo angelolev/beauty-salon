@@ -156,7 +156,7 @@ export default function BookingsPage() {
               </p>
               {activeTab === 'upcoming' && (
                 <Button
-                  variant="primary"
+                  variant="outline"
                   size="lg"
                   onClick={() =>
                     (window.location.href = `/${params.salonSlug}`)

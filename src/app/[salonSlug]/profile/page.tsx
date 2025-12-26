@@ -218,7 +218,7 @@ export default function ProfilePage() {
           {/* Profile Header */}
           <div className="flex flex-col items-center mb-8 pt-4">
             <div className="relative mb-4">
-              <Avatar src={undefined} alt={user.name} size="xl" />
+              <Avatar src={user.photoURL} alt={user.name} size="xl" />
               <button className="absolute bottom-0 right-0 w-8 h-8 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center shadow-lg">
                 <Camera size={16} className="text-white dark:text-gray-900" />
               </button>
@@ -298,7 +298,7 @@ export default function ProfilePage() {
               <div className="bg-white dark:bg-[var(--card)] rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-[var(--border)] sticky top-6">
                 <div className="flex flex-col items-center">
                   <div className="relative mb-4">
-                    <Avatar src={undefined} alt={user.name} size="xl" />
+                    <Avatar src={user.photoURL} alt={user.name} size="xl" />
                     <button className="absolute bottom-0 right-0 w-10 h-10 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
                       <Camera
                         size={18}

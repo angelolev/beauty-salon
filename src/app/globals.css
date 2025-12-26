@@ -3,19 +3,19 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  /* MediCitas Purple Palette */
-  
-  /* Primary: Vibrant Purple */
-  --primary-50: #F5F3FF;
-  --primary-100: #EDE9FE;
-  --primary-200: #DDD6FE;
-  --primary-300: #C4B5FD;
-  --primary-400: #A78BFA;
-  --primary-500: #8B5CF6; /* Main Brand Color */
-  --primary-600: #7C3AED;
-  --primary-700: #6D28D9;
-  --primary-800: #5B21B6;
-  --primary-900: #4C1D95;
+  /* Pastel Peach/Coral Palette */
+
+  /* Primary: Soft Peach/Coral */
+  --primary-50: #FFF8F3;
+  --primary-100: #FFF4EF;
+  --primary-200: #FFE4D5;
+  --primary-300: #FFD4BA;
+  --primary-400: #FFC29F;
+  --primary-500: #FFB085; /* Main Brand Color */
+  --primary-600: #FF9B6A;
+  --primary-700: #F08155;
+  --primary-800: #D96B45;
+  --primary-900: #C25535;
 
   /* Secondary: Soft Grayish Blue for Backgrounds */
   --secondary-50: #F8FAFC;
@@ -37,11 +37,11 @@
   /* Base Semantic Variables */
   --background: #F6F7FB; /* Light cool gray */
   --foreground: #1E293B; /* Dark slate */
-  
-  --primary: #8257E5;
+
+  --primary: #FFB085;
   --primary-foreground: #FFFFFF;
-  --primary-light: #F0EAFB; /* Very soft purple for sidebar active state */
-  --primary-dark: #6D28D9;
+  --primary-light: #FFF4EF; /* Very soft peach for sidebar active state */
+  --primary-dark: #F08155;
   
   --secondary: #FFFFFF;
   --secondary-foreground: #64748B;
@@ -54,7 +54,7 @@
   
   --border: #E2E8F0;
   --input: #F1F5F9;
-  --ring: #8257E5;
+  --ring: #FFB085;
 
   /* Radius - Very rounded as seen in image */
   --radius-sm: 0.5rem;
@@ -76,24 +76,24 @@
 .dark {
   --background: #0F172A;
   --foreground: #F8FAFC;
-  
-  --primary: #A78BFA;
+
+  --primary: #FFC29F;
   --primary-foreground: #1E293B;
-  --primary-light: #4C1D95;
-  --primary-dark: #8B5CF6;
-  
+  --primary-light: #C25535;
+  --primary-dark: #FFD4BA;
+
   --secondary: #1E293B;
   --secondary-foreground: #CBD5E1;
-  
+
   --card: #1E293B;
   --card-foreground: #F8FAFC;
-  
+
   --muted: #334155;
   --muted-foreground: #94A3B8;
-  
+
   --border: #334155;
   --input: #1E293B;
-  --ring: #A78BFA;
+  --ring: #FFC29F;
 }
 
 @theme inline {

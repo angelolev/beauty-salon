@@ -13,10 +13,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center font-bold font-[family-name:var(--font-heading)] button-press rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--ring)] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
-      primary: 'bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)] shadow-[0_4px_14px_0_rgba(139,92,246,0.39)] hover:shadow-[0_6px_20px_rgba(139,92,246,0.23)] hover:-translate-y-0.5',
-      secondary: 'bg-[var(--primary-100)] text-[var(--primary-700)] hover:bg-[var(--primary-200)]',
-      outline: 'bg-transparent border-2 border-[var(--primary-300)] text-[var(--primary)] hover:bg-[var(--primary-50)]',
-      ghost: 'text-[var(--secondary-500)] hover:bg-[var(--secondary-50)] hover:text-[var(--foreground)]',
+      primary: 'bg-[var(--primary)] text-white hover:bg-[var(--primary-dark)] shadow-[0_4px_14px_0_rgba(255,176,133,0.39)] hover:shadow-[0_6px_20px_rgba(255,176,133,0.23)] hover:-translate-y-0.5 dark:shadow-[0_4px_14px_0_rgba(255,194,159,0.25)] dark:hover:shadow-[0_6px_20px_rgba(255,194,159,0.15)]',
+      secondary: 'bg-[var(--primary-100)] text-[var(--primary-700)] hover:bg-[var(--primary-200)] dark:bg-[var(--primary-900)] dark:text-[var(--primary-300)] dark:hover:bg-[var(--primary-800)]',
+      outline: 'bg-transparent border-2 border-[var(--primary)] text-[var(--primary)] hover:bg-[var(--primary-light)] dark:border-[var(--primary)] dark:hover:bg-[var(--primary-900)]',
+      ghost: 'text-[var(--secondary-500)] hover:bg-[var(--muted)] hover:text-[var(--primary)] dark:text-[var(--secondary-400)] dark:hover:bg-[var(--muted)] dark:hover:text-[var(--primary)]',
     };
 
     const sizes = {

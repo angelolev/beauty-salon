@@ -54,6 +54,7 @@ export interface User {
   email: string;
   name: string;
   phone?: string;
+  photoURL?: string;
   role: UserRole;
   assignedSalonIds?: string[]; // For salon_admin - salons they can manage
   isActive: boolean;

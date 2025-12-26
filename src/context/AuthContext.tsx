@@ -7,6 +7,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db, isFirebaseConfigured } from '@/lib/firebase';
@@ -44,6 +46,7 @@ interface AuthContextType {
   canManageSalon: (salonId: string) => boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, name: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   refreshUserData: () => Promise<void>;
 }
@@ -112,6 +115,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             // Use role from config if admin, otherwise use stored role or default to customer
             role: configRole !== 'customer' ? configRole : (userData.role || 'customer'),
             assignedSalonIds: assignedSalonIds || userData.assignedSalonIds,
+            // Update photoURL from Firebase if available (for Google sign-in)
+            photoURL: firebaseUser.photoURL || userData.photoURL,
             isActive: userData.isActive ?? true,
           } as User);
         } else {
@@ -120,9 +125,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             email: firebaseUser.email || '',
             name: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
             role: configRole,
-            assignedSalonIds,
             isActive: true,
           };
+
+          // Only add assignedSalonIds if it's defined (for admin users)
+          if (assignedSalonIds) {
+            newUser.assignedSalonIds = assignedSalonIds;
+          }
+
+          // Add photoURL from Google if available
+          if (firebaseUser.photoURL) {
+            newUser.photoURL = firebaseUser.photoURL;
+          }
+
           await setDoc(doc(db, 'users', firebaseUser.uid), {
             ...newUser,
             createdAt: serverTimestamp(),
@@ -179,6 +194,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const signInWithGoogle = async () => {
+    if (!auth || isDemo) {
+      throw new Error('Firebase is not configured. Please set up your Firebase credentials.');
+    }
+
+    const provider = new GoogleAuthProvider();
+    // Always prompt user to select account
+    provider.setCustomParameters({ prompt: 'select_account' });
+
+    try {
+      await signInWithPopup(auth, provider);
+      // The onAuthStateChanged listener will handle user creation/update
+    } catch (error: any) {
+      // Handle specific Google auth errors
+      if (error.code === 'auth/popup-blocked') {
+        throw new Error('La ventana emergente fue bloqueada. Por favor, permite ventanas emergentes e intenta de nuevo.');
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        throw new Error('Inicio de sesión fue cancelado. Por favor, intenta de nuevo.');
+      } else if (error.code === 'auth/network-request-failed') {
+        throw new Error('Error de conexión. Por favor, verifica tu conexión a internet.');
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        throw new Error('La operación fue cancelada. Por favor, intenta de nuevo.');
+      } else {
+        // Re-throw other errors
+        throw error;
+      }
+    }
+  };
+
   const logout = async () => {
     if (isDemo) {
       setUser(null);
@@ -201,6 +245,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       canManageSalon,
       signIn,
       signUp,
+      signInWithGoogle,
       logout,
       refreshUserData,
     }}>
