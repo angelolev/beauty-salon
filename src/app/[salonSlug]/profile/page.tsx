@@ -1,12 +1,28 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import { LogOut, User, Mail, Phone, ChevronRight, HelpCircle, Sun, Moon, Monitor } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { useTheme } from '@/context/ThemeContext';
-import Header from '@/components/layout/Header';
-import Avatar from '@/components/ui/Avatar';
-import Button from '@/components/ui/Button';
+import { useParams, useRouter } from "next/navigation";
+import {
+  Bell,
+  Sun,
+  Moon,
+  Star,
+  Share2,
+  Lock,
+  FileText,
+  Cookie,
+  Mail,
+  MessageSquare,
+  LogOut,
+  ChevronRight,
+  Camera,
+  User,
+  Phone,
+} from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/context/ThemeContext";
+import Header from "@/components/layout/Header";
+import Avatar from "@/components/ui/Avatar";
+import Button from "@/components/ui/Button";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -17,11 +33,11 @@ export default function ProfilePage() {
 
   const handleLogout = async () => {
     await logout();
-    router.push('/login');
+    router.push("/login");
   };
 
   const handleLogin = () => {
-    router.push('/login');
+    router.push("/login");
   };
 
   if (loading) {
@@ -36,7 +52,7 @@ export default function ProfilePage() {
   if (!user) {
     return (
       <div className="min-h-screen bg-white dark:bg-[var(--background)]">
-        <Header title="Perfil" />
+        <Header title="My Profile" showBack />
 
         <main className="p-4 lg:p-6">
           <div className="max-w-md mx-auto flex flex-col items-center justify-center min-h-[60vh]">
@@ -48,8 +64,8 @@ export default function ProfilePage() {
             </h2>
             <p className="text-gray-500 dark:text-[var(--muted)] text-center mb-6">
               {isDemo
-                ? 'Ejecutando en modo demo. Configura Firebase para habilitar la autenticación.'
-                : 'Inicia sesión para gestionar tus reservas y perfil'}
+                ? "Ejecutando en modo demo. Configura Firebase para habilitar la autenticación."
+                : "Inicia sesión para gestionar tus reservas y perfil"}
             </p>
             {!isDemo && <Button onClick={handleLogin}>Iniciar Sesión</Button>}
           </div>
@@ -58,135 +74,454 @@ export default function ProfilePage() {
     );
   }
 
+  const isDarkMode =
+    theme === "dark" ||
+    (theme === "system" &&
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
+
   const menuItems = [
     {
-      icon: User,
-      label: 'Información Personal',
-      value: undefined,
+      icon: Bell,
+      label: "Notification",
+      type: "toggle" as const,
+      value: false,
+      onChange: () => {},
+    },
+    {
+      icon: isDarkMode ? Moon : Sun,
+      label: "Dark Mode",
+      type: "toggle" as const,
+      value: isDarkMode,
+      onChange: () => setTheme(isDarkMode ? "light" : "dark"),
+    },
+    {
+      icon: Star,
+      label: "Rate App",
+      type: "link" as const,
+      onClick: () => {},
+    },
+    {
+      icon: Share2,
+      label: "Share App",
+      type: "link" as const,
+      onClick: () => {},
+    },
+    {
+      icon: Lock,
+      label: "Privacy Policy",
+      type: "link" as const,
+      onClick: () => {},
+    },
+    {
+      icon: FileText,
+      label: "Terms and Conditions",
+      type: "link" as const,
+      onClick: () => {},
+    },
+    {
+      icon: Cookie,
+      label: "Cookies Policy",
+      type: "link" as const,
       onClick: () => {},
     },
     {
       icon: Mail,
-      label: 'Correo Electrónico',
-      value: user.email,
+      label: "Contact",
+      type: "link" as const,
+      onClick: () => {},
+    },
+    {
+      icon: MessageSquare,
+      label: "Feedback",
+      type: "link" as const,
+      onClick: () => {},
+    },
+  ];
+
+  const accountItems = [
+    {
+      icon: User,
+      label: "Información Personal",
+      description: "Actualiza tu nombre y otros detalles",
+      onClick: () => {},
+    },
+    {
+      icon: Mail,
+      label: "Correo Electrónico",
+      description: user.email,
       onClick: () => {},
     },
     {
       icon: Phone,
-      label: 'Teléfono',
-      value: user.phone || 'Añadir número de teléfono',
+      label: "Teléfono",
+      description: user.phone || "Añadir número de teléfono",
       onClick: () => {},
     },
   ];
 
-  const themeOptions = [
-    { value: 'light' as const, label: 'Claro', icon: Sun },
-    { value: 'dark' as const, label: 'Oscuro', icon: Moon },
-    { value: 'system' as const, label: 'Sistema', icon: Monitor },
+  const appItems = [
+    {
+      icon: Star,
+      label: "Calificar App",
+      description: "Comparte tu experiencia",
+      onClick: () => {},
+    },
+    {
+      icon: Share2,
+      label: "Compartir App",
+      description: "Invita a tus amigos",
+      onClick: () => {},
+    },
+  ];
+
+  const legalItems = [
+    {
+      icon: Lock,
+      label: "Política de Privacidad",
+      onClick: () => {},
+    },
+    {
+      icon: FileText,
+      label: "Términos y Condiciones",
+      onClick: () => {},
+    },
+    {
+      icon: Cookie,
+      label: "Política de Cookies",
+      onClick: () => {},
+    },
+  ];
+
+  const supportItems = [
+    {
+      icon: Mail,
+      label: "Contacto",
+      description: "Envíanos un mensaje",
+      onClick: () => {},
+    },
+    {
+      icon: MessageSquare,
+      label: "Feedback",
+      description: "Ayúdanos a mejorar",
+      onClick: () => {},
+    },
   ];
 
   return (
     <div className="min-h-screen bg-white dark:bg-[var(--background)]">
-      <Header title="Perfil" />
+      <Header title="My Profile" showBack />
 
-      <main className="p-4 lg:p-6">
-        <div className="max-w-2xl mx-auto">
-          {/* Desktop: Two column layout */}
-          <div className="lg:grid lg:grid-cols-3 lg:gap-8">
-            {/* Profile Header */}
-            <div className="flex flex-col items-center mb-8 lg:mb-0 lg:bg-gray-50 dark:lg:bg-[var(--card)] lg:rounded-xl lg:p-6">
-              <Avatar
-                src={undefined}
-                alt={user.name}
-                size="xl"
-              />
-              <h2 className="mt-4 text-xl font-semibold text-gray-900 dark:text-white">
+      <main className="px-6 lg:px-10 py-6">
+        {/* Mobile & Tablet: Original Clean Design */}
+        <div className="lg:hidden max-w-2xl mx-auto">
+          {/* Profile Header */}
+          <div className="flex flex-col items-center mb-8 pt-4">
+            <div className="relative mb-4">
+              <Avatar src={undefined} alt={user.name} size="xl" />
+              <button className="absolute bottom-0 right-0 w-8 h-8 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center shadow-lg">
+                <Camera size={16} className="text-white dark:text-gray-900" />
+              </button>
+            </div>
+
+            <button className="flex items-center gap-2 group mb-1">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                 {user.name}
               </h2>
-              <p className="text-[#8B7E8B] dark:text-[var(--muted)]">{user.email}</p>
+              <ChevronRight
+                size={20}
+                className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors"
+              />
+            </button>
 
-              {/* Desktop: Quick actions */}
-              <div className="hidden lg:flex flex-col w-full mt-6 space-y-2">
-                <Button variant="outline" fullWidth onClick={() => {}}>
-                  Editar Perfil
-                </Button>
+            <p className="text-gray-500 dark:text-[var(--muted)] text-sm">
+              @{user.email?.split("@")[0] || "user"}
+            </p>
+          </div>
+
+          {/* Menu Items */}
+          <div className="space-y-1">
+            {menuItems.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-[var(--card)] rounded-2xl transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  <item.icon
+                    size={22}
+                    className="text-gray-700 dark:text-gray-300"
+                  />
+                  <span className="font-medium text-gray-900 dark:text-white text-base">
+                    {item.label}
+                  </span>
+                </div>
+
+                {item.type === "toggle" ? (
+                  <button
+                    onClick={item.onChange}
+                    className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${
+                      item.value
+                        ? "bg-[#6366F1]"
+                        : "bg-gray-300 dark:bg-gray-600"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
+                        item.value ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                ) : (
+                  <button onClick={item.onClick}>
+                    <ChevronRight size={20} className="text-gray-400" />
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center justify-center gap-3 p-4 mt-8 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-2xl transition-colors font-medium"
+          >
+            <LogOut size={20} />
+            <span>Cerrar Sesión</span>
+          </button>
+        </div>
+
+        {/* Desktop: Card-Based Layout */}
+        <div className="hidden lg:block max-w-7xl mx-auto">
+          <div className="grid grid-cols-12 gap-8">
+            {/* Left Sidebar - Profile Card */}
+            <div className="col-span-4 xl:col-span-3">
+              <div className="bg-white dark:bg-[var(--card)] rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-[var(--border)] sticky top-6">
+                <div className="flex flex-col items-center">
+                  <div className="relative mb-4">
+                    <Avatar src={undefined} alt={user.name} size="xl" />
+                    <button className="absolute bottom-0 right-0 w-10 h-10 bg-gray-900 dark:bg-white rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
+                      <Camera
+                        size={18}
+                        className="text-white dark:text-gray-900"
+                      />
+                    </button>
+                  </div>
+
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                    {user.name}
+                  </h2>
+                  <p className="text-gray-500 dark:text-[var(--muted)] text-sm mb-6">
+                    {user.email}
+                  </p>
+
+                  <Button variant="outline" fullWidth onClick={() => {}}>
+                    Editar Perfil
+                  </Button>
+
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center justify-center gap-2 p-3 mt-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors font-medium"
+                  >
+                    <LogOut size={18} />
+                    <span>Cerrar Sesión</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Menu Items */}
-            <div className="lg:col-span-2">
-              <div className="space-y-1 mb-8">
-                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 lg:mb-4">
-                  Cuenta
+            {/* Right Content - Settings Cards */}
+            <div className="col-span-8 xl:col-span-9 space-y-6">
+              {/* Preferences Card */}
+              <div className="bg-white dark:bg-[var(--card)] rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-[var(--border)]">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Preferencias
                 </h3>
-                {menuItems.map((item, index) => (
-                  <button
-                    key={index}
-                    onClick={item.onClick}
-                    className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-[var(--card)] rounded-xl transition-colors"
-                  >
-                    <div className="flex items-center gap-4">
-                      <item.icon size={20} className="text-gray-500 dark:text-gray-400" />
-                      <div className="text-left">
-                        <p className="font-medium text-gray-900 dark:text-white">{item.label}</p>
-                        {item.value && (
-                          <p className="text-sm text-[#8B7E8B] dark:text-[var(--muted)]">{item.value}</p>
-                        )}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-[var(--background)] rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <Bell size={20} className="text-gray-600 dark:text-gray-400" />
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          Notificaciones
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-[var(--muted)]">
+                          Recibe actualizaciones sobre tus reservas
+                        </p>
                       </div>
                     </div>
-                    <ChevronRight size={20} className="text-gray-400" />
-                  </button>
-                ))}
-              </div>
+                    <button className="relative inline-flex h-7 w-12 items-center rounded-full transition-colors bg-gray-300 dark:bg-gray-600">
+                      <span className="inline-block h-5 w-5 transform rounded-full bg-white transition-transform translate-x-1" />
+                    </button>
+                  </div>
 
-              {/* Appearance Section */}
-              <div className="space-y-1 mb-8">
-                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 lg:mb-4">
-                  Apariencia
-                </h3>
-                <div className="flex gap-2 p-2 bg-gray-100 dark:bg-[var(--card)] rounded-xl">
-                  {themeOptions.map((option) => (
+                  <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-[var(--background)] rounded-xl">
+                    <div className="flex items-center gap-3">
+                      {isDarkMode ? (
+                        <Moon size={20} className="text-gray-600 dark:text-gray-400" />
+                      ) : (
+                        <Sun size={20} className="text-gray-600 dark:text-gray-400" />
+                      )}
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          Modo Oscuro
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-[var(--muted)]">
+                          Cambia entre tema claro y oscuro
+                        </p>
+                      </div>
+                    </div>
                     <button
-                      key={option.value}
-                      onClick={() => setTheme(option.value)}
-                      className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-lg text-sm font-medium transition-colors ${
-                        theme === option.value
-                          ? 'bg-white dark:bg-[var(--background)] text-gray-900 dark:text-white shadow-sm'
-                          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                      onClick={() => setTheme(isDarkMode ? "light" : "dark")}
+                      className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${
+                        isDarkMode
+                          ? "bg-[#6366F1]"
+                          : "bg-gray-300 dark:bg-gray-600"
                       }`}
                     >
-                      <option.icon size={18} />
-                      <span className="hidden sm:inline">{option.label}</span>
+                      <span
+                        className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
+                          isDarkMode ? "translate-x-6" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Account Information */}
+              <div className="bg-white dark:bg-[var(--card)] rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-[var(--border)]">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Información de Cuenta
+                </h3>
+                <div className="space-y-2">
+                  {accountItems.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={item.onClick}
+                      className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-[var(--background)] rounded-xl transition-colors group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <item.icon
+                          size={20}
+                          className="text-gray-600 dark:text-gray-400"
+                        />
+                        <div className="text-left">
+                          <p className="font-medium text-gray-900 dark:text-white">
+                            {item.label}
+                          </p>
+                          <p className="text-sm text-gray-500 dark:text-[var(--muted)]">
+                            {item.description}
+                          </p>
+                        </div>
+                      </div>
+                      <ChevronRight
+                        size={20}
+                        className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors"
+                      />
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Help Section */}
-              <div className="space-y-1 mb-8">
-                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 lg:mb-4">
-                  Soporte
+              {/* App Section */}
+              <div className="bg-white dark:bg-[var(--card)] rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-[var(--border)]">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  App
                 </h3>
-                <button
-                  onClick={() => {}}
-                  className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-[var(--card)] rounded-xl transition-colors"
-                >
-                  <div className="flex items-center gap-4">
-                    <HelpCircle size={20} className="text-gray-500 dark:text-gray-400" />
-                    <p className="font-medium text-gray-900 dark:text-white">Ayuda y Soporte</p>
-                  </div>
-                  <ChevronRight size={20} className="text-gray-400" />
-                </button>
+                <div className="space-y-2">
+                  {appItems.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={item.onClick}
+                      className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-[var(--background)] rounded-xl transition-colors group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <item.icon
+                          size={20}
+                          className="text-gray-600 dark:text-gray-400"
+                        />
+                        <div className="text-left">
+                          <p className="font-medium text-gray-900 dark:text-white">
+                            {item.label}
+                          </p>
+                          <p className="text-sm text-gray-500 dark:text-[var(--muted)]">
+                            {item.description}
+                          </p>
+                        </div>
+                      </div>
+                      <ChevronRight
+                        size={20}
+                        className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors"
+                      />
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Logout Button */}
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-4 p-4 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
-              >
-                <LogOut size={20} />
-                <span className="font-medium">Cerrar Sesión</span>
-              </button>
+              {/* Legal Section */}
+              <div className="bg-white dark:bg-[var(--card)] rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-[var(--border)]">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Legal
+                </h3>
+                <div className="space-y-2">
+                  {legalItems.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={item.onClick}
+                      className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-[var(--background)] rounded-xl transition-colors group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <item.icon
+                          size={20}
+                          className="text-gray-600 dark:text-gray-400"
+                        />
+                        <p className="font-medium text-gray-900 dark:text-white">
+                          {item.label}
+                        </p>
+                      </div>
+                      <ChevronRight
+                        size={20}
+                        className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Support Section */}
+              <div className="bg-white dark:bg-[var(--card)] rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-[var(--border)]">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Soporte
+                </h3>
+                <div className="space-y-2">
+                  {supportItems.map((item, index) => (
+                    <button
+                      key={index}
+                      onClick={item.onClick}
+                      className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-[var(--background)] rounded-xl transition-colors group"
+                    >
+                      <div className="flex items-center gap-3">
+                        <item.icon
+                          size={20}
+                          className="text-gray-600 dark:text-gray-400"
+                        />
+                        <div className="text-left">
+                          <p className="font-medium text-gray-900 dark:text-white">
+                            {item.label}
+                          </p>
+                          <p className="text-sm text-gray-500 dark:text-[var(--muted)]">
+                            {item.description}
+                          </p>
+                        </div>
+                      </div>
+                      <ChevronRight
+                        size={20}
+                        className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors"
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

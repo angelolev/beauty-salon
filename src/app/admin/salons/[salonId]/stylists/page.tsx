@@ -150,7 +150,7 @@ export default function StylistsPage() {
                     <div className="flex items-center gap-4">
                       <Avatar
                         src={stylist.avatar}
-                        name={stylist.name}
+                        alt={stylist.name}
                         size="lg"
                       />
                       <div>

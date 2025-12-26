@@ -181,7 +181,7 @@ export default function AnalyticsPage() {
                     borderRadius: '8px',
                     color: '#fff',
                   }}
-                  formatter={(value: number) => [formatCurrency(value), 'Ingresos']}
+                  formatter={(value: number | undefined) => [formatCurrency(value ?? 0), 'Ingresos']}
                 />
                 <Line
                   type="monotone"
@@ -224,7 +224,7 @@ export default function AnalyticsPage() {
                     borderRadius: '8px',
                     color: '#fff',
                   }}
-                  formatter={(value: number) => [`${value}%`, 'Porcentaje']}
+                  formatter={(value: number | undefined) => [`${value ?? 0}%`, 'Porcentaje']}
                 />
                 <Legend />
               </PieChart>
@@ -275,7 +275,7 @@ export default function AnalyticsPage() {
                     borderRadius: '8px',
                     color: '#fff',
                   }}
-                  formatter={(value: number) => [`${value} reservas`, 'Total']}
+                  formatter={(value: number | undefined) => [`${value ?? 0} reservas`, 'Total']}
                 />
                 <Bar dataKey="count" fill="#87CEEB" radius={[0, 4, 4, 0]} />
               </BarChart>

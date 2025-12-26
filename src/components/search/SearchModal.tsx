@@ -19,7 +19,7 @@ export default function SearchModal({ isOpen, onClose, salonSlug }: SearchModalP
   const [query, setQuery] = useState('');
   const [mounted, setMounted] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
-  const { salon } = useSalon();
+  const { salon, services } = useSalon();
 
   // Handle mounting for portal
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function SearchModal({ isOpen, onClose, salonSlug }: SearchModalP
   }, [isOpen, onClose]);
 
   // Filter services based on debounced query
-  const filteredServices = (salon?.services || []).filter((service: Service) => {
+  const filteredServices = (services || []).filter((service: Service) => {
     if (!debouncedQuery.trim()) return true;
 
     const lowerQuery = debouncedQuery.toLowerCase().trim();
